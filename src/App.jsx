@@ -5,12 +5,11 @@ export default function App() {
 	const [data, setData] = useState([]);
 
 	const fetchData = () => {
-		fetch(`https://dummyjson.com/products`)
+		// fetch(`https://dummyjson.com/products`)
+		fetch(`https://api.orhanaydogdu.com.tr/deprem/kandilli/live`)
 			.then((response) => response.json())
 			.then((actualData) => {
-				console.log(actualData);
-				setData(actualData.products);
-				console.log(data);
+				setData(actualData.result);
 			})
 			.catch((err) => {
 				console.log(err.message);
@@ -26,14 +25,27 @@ export default function App() {
 			<tbody>
 				<tr>
 					<th>Name</th>
-					<th>Brand</th>
-					<th>Image</th>
-					<th>Price</th>
-					<th>Rating</th>
+					<th>Şiddet</th>
+					<th>Enlem Boylam</th>
+					<th>Date</th>
 				</tr>
-				{data.map((item, index) => (
+
+
+				{Object.entries(data).map((subject, i) => {
+					console.log(subject);
+					return (
+						<tr key={i}>
+							<td >{subject[1].title}</td>
+							<td style={{textAlign:"center"}}>{subject[1].mag}</td>
+							<td>{subject[1].lat} {subject[1].lng}</td>
+							<td>{subject[1].date}</td>
+						</tr>
+					);
+				})}
+
+				{/* {data.map((item, index) => (
 					<tr key={index}>
-						<td>{item.title}</td>
+						<td>{item.title[0]}</td>
 						<td>{item.brand}</td>
 						<td>
 							<img src={item.thumbnail} alt="" height={100} />
@@ -41,7 +53,7 @@ export default function App() {
 						<td>{item.price}</td>
 						<td>{item.rating}</td>
 					</tr>
-				))}
+				))} */}
 			</tbody>
 		</div>
 	);
